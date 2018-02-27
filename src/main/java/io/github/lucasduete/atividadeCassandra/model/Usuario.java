@@ -4,8 +4,7 @@ import com.datastax.driver.mapping.annotations.Frozen;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Table(keyspace = "atividadeCassandra", name = "usuario")
 public class Usuario {
@@ -16,15 +15,18 @@ public class Usuario {
     @Frozen
     private Map<String,Telefone> telefones;
 
+    {
+        telefones = new HashMap<>();
+    };
+
     public Usuario() {
 
     }
 
-    public Usuario(int id, String nome, Map<String, Telefone> telefones) {
+    public Usuario(int id, String nome) {
 
         this.id = id;
         this.nome = nome;
-        this.telefones = telefones;
     }
 
     public int getId() {

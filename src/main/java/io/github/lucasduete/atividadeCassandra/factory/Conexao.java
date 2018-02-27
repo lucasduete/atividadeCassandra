@@ -8,17 +8,17 @@ public class Conexao {
     private static Cluster cluster = null;
 
     public static Session getConnection() {
-        try {
-            cluster = Cluster.builder()
-                                .addContactPoint("127.17.0.2")
-                                .withPort(9042)
-                                    .build();
+        cluster = Cluster.builder()
+                            .addContactPoint("172.17.0.2")
+                            .withPort(9042)
+                                .build();
 
-            Session session = cluster.connect("atividadeCassandra");
+        Session session = cluster.connect();
 
-            return session;
-        } finally {
-            cluster.close();
-        }
+        return session;
+    }
+
+    public static void closeConnection() {
+        cluster.close();
     }
 }
