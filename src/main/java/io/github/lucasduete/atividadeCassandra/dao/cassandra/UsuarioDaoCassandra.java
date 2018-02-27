@@ -1,12 +1,15 @@
 package io.github.lucasduete.atividadeCassandra.dao.cassandra;
 
+import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import com.datastax.driver.mapping.Result;
 import io.github.lucasduete.atividadeCassandra.dao.interfaces.UsuarioDaoInterface;
 import io.github.lucasduete.atividadeCassandra.factory.Conexao;
 import io.github.lucasduete.atividadeCassandra.model.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDaoCassandra implements UsuarioDaoInterface {
@@ -63,8 +66,19 @@ public class UsuarioDaoCassandra implements UsuarioDaoInterface {
     }
 
     @Override
-    public List<Usuario> listar(Usuario usuario) {
-        return null;
+    public List<Usuario> listar() {
+        MappingManager mappingManager = new MappingManager(session);
+        Mapper<Usuario> mapper = mappingManager.mapper(Usuario.class);
+        PreparedStatement stmt = session.prepare("SELECT * FROM Pessoa;");
+
+        Result<Usuario> result = mapper.map(session.execute(stmt.bind()));
+        List<Usuario> usuarios = new ArrayList<>();
+
+        for (Usuario user: result) {
+            usuarios.add(user);
+        }
+
+        return usuarios;
     }
 
     @Override

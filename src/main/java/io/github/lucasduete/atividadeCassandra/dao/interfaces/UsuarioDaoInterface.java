@@ -10,6 +10,6 @@ public interface UsuarioDaoInterface {
     public boolean atualizar(Usuario usuario);
     public boolean remover(Usuario usuario);
     public boolean remover(int idUsuario);
-    public List<Usuario> listar(Usuario usuario);
+    public List<Usuario> listar();
     public Usuario buscar(int idUsuario);
 }
