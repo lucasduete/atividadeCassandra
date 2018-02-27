@@ -13,7 +13,7 @@ public class Conexao {
                             .withPort(9042)
                                 .build();
 
-        Session session = cluster.connect();
+        Session session = cluster.connect("atividadeCassandra");
 
         return session;
     }
