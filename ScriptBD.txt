@@ -1,0 +1,16 @@
+SCRIPT DO BD DO CASSANDRA
+
+CREATE KEYSPACE atividadeCassandra;
+
+USE atividadeCassandra;
+
+CREATE TYPE Telefone(
+    ddd int,
+    numero bigint
+);
+
+CREATE TABLE Usuario(
+    id INT PRIMARY KEY,
+    nome TEXT,
+    telefones MAP<TEXT, FROZEN <Telefone>>
+);
