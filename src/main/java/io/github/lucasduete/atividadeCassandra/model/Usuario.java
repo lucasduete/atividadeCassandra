@@ -51,6 +51,11 @@ public class Usuario {
         this.telefones = telefones;
     }
 
+    public void addTelefone(String nome, Telefone telefone) {
+
+        telefones.put(nome, telefone);
+    }
+
     @Override
     public boolean equals(Object o) {
 
