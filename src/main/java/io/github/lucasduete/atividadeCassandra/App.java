@@ -1,8 +1,8 @@
 package io.github.lucasduete.atividadeCassandra;
 
 import com.datastax.driver.core.Session;
-import com.datastax.driver.mapping.Mapper;
-import com.datastax.driver.mapping.MappingManager;
+import io.github.lucasduete.atividadeCassandra.dao.cassandra.UsuarioDaoCassandra;
+import io.github.lucasduete.atividadeCassandra.dao.interfaces.UsuarioDaoInterface;
 import io.github.lucasduete.atividadeCassandra.factory.Conexao;
 import io.github.lucasduete.atividadeCassandra.model.Telefone;
 import io.github.lucasduete.atividadeCassandra.model.Usuario;
@@ -12,8 +12,6 @@ public class App {
     public static void main(String[] args) {
 
         Session session = Conexao.getConnection();
-
-
 
         Usuario user = new Usuario(
                 1,"Lucas"
@@ -27,12 +25,23 @@ public class App {
                 88, 99681997
         ));
 
-        mapper.save(user);
+        Usuario user2 = new Usuario(
+                2,"Jose"
+        );
 
-        Usuario usuario = mapper.get(1);
-        mapper.delete(usuario);
+        user2.addTelefone("Personal", new Telefone(
+                83, 88739924
+        ));
 
-        Conexao.closeConnection();
-        //session.getCluster().close();
+        UsuarioDaoInterface userDao = new UsuarioDaoCassandra();
+        userDao.salvar(user);
+        userDao.salvar(user2);
+
+        System.out.println(userDao.listar());
+
+        userDao.remover(1);
+        userDao.remover(2);
+
+        System.out.println(userDao.buscar(1));
     }
 }
