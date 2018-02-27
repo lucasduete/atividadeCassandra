@@ -14,62 +14,80 @@ import java.util.List;
 
 public class UsuarioDaoCassandra implements UsuarioDaoInterface {
 
-    private final Session session;
+    private Session session;
 
     public UsuarioDaoCassandra() {
-        session = Conexao.getConnection();
+
     }
 
     @Override
     public boolean salvar(Usuario usuario) {
+        session = Conexao.getConnection();
+
         MappingManager mappingManager = new MappingManager(session);
         Mapper<Usuario> mapper = mappingManager.mapper(Usuario.class);
 
         mapper.save(usuario);
+
         Conexao.closeConnection();
+        session.close();
 
         return true;
     }
 
     @Override
     public boolean atualizar(Usuario usuario) {
+        session = Conexao.getConnection();
+
         MappingManager mappingManager = new MappingManager(session);
         Mapper<Usuario> mapper = mappingManager.mapper(Usuario.class);
 
         mapper.save(usuario);
+
         Conexao.closeConnection();
+        session.close();
 
         return true;
     }
 
     @Override
     public boolean remover(Usuario usuario) {
+        session = Conexao.getConnection();
+
         MappingManager mappingManager = new MappingManager(session);
         Mapper<Usuario> mapper = mappingManager.mapper(Usuario.class);
 
         mapper.delete(usuario);
+
         Conexao.closeConnection();
+        session.close();
 
         return true;
     }
 
     @Override
     public boolean remover(int idUsuario) {
+        session = Conexao.getConnection();
+
         MappingManager mappingManager = new MappingManager(session);
         Mapper<Usuario> mapper = mappingManager.mapper(Usuario.class);
 
         Usuario user = mapper.get(idUsuario);
         mapper.delete(user);
+
         Conexao.closeConnection();
+        session.close();
 
         return true;
     }
 
     @Override
     public List<Usuario> listar() {
+        session = Conexao.getConnection();
+
         MappingManager mappingManager = new MappingManager(session);
         Mapper<Usuario> mapper = mappingManager.mapper(Usuario.class);
-        PreparedStatement stmt = session.prepare("SELECT * FROM Pessoa;");
+        PreparedStatement stmt = session.prepare("SELECT * FROM Usuario;");
 
         Result<Usuario> result = mapper.map(session.execute(stmt.bind()));
         List<Usuario> usuarios = new ArrayList<>();
@@ -78,16 +96,23 @@ public class UsuarioDaoCassandra implements UsuarioDaoInterface {
             usuarios.add(user);
         }
 
+        Conexao.closeConnection();
+        session.close();
+
         return usuarios;
     }
 
     @Override
     public Usuario buscar(int idUsuario) {
+        session = Conexao.getConnection();
+
         MappingManager mappingManager = new MappingManager(session);
         Mapper<Usuario> mapper = mappingManager.mapper(Usuario.class);
 
         Usuario user = mapper.get(idUsuario);
+
         Conexao.closeConnection();
+        session.close();
 
         return user;
     }
